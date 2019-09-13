@@ -1,0 +1,90 @@
+<template th:fragment="html">
+    <script src="front/js/smoothscroll.js"></script>
+    <script src="front/js/popper.min.js"></script>
+    <script src="front/js/bootstrap.min.js"></script>
+    <script src="front/js/animsition.min.js"></script>
+    <script src="front/js/owl.carousel.min.js"></script>
+    <script src="front/js/wow.min.js"></script>
+    <script src="front/js/jquery.pagepiling.min.js"></script>
+    <script src="front/js/isotope.pkgd.min.js"></script>
+    <script src="front/js/jquery.fancybox.min.js"></script>
+    <script src="front/js/TweenMax.min.js"></script>
+    <script src="front/js/ScrollMagic.min.js"></script>
+    <script src="front/js/animation.gsap.min.js"></script>
+    <script src="front/js/jquery.viewport.js"></script>
+    <script src="front/js/jquery.countdown.min.js"></script>
+    <script src="front/js/script.js"></script>
+    <script src="front/js/sweetalert2.min.js"></script>
+    <script src="front/js/vue.min.js"></script>
+    <script src="front/js/axios.min.js"></script>
+    <script src="front/js/moment.js"></script>
+    <script>
+        function alertLogin() {
+            console.log('dsadsa')
+            swal({
+                title: '用户登录',
+                html:
+                '<input id="userName" class="swal2-input" autofocus>' +
+                '<input id="password" class="swal2-input">',
+                preConfirm: function () {
+                    return new Promise(function(resolve,reject) {
+                        if (false) {
+                            resolve([
+                                $('#userName').val(),
+                                $('#userName').val()
+                            ]);
+                        }else{
+                            reject('wrong')
+                        }
+                    });
+                }
+            }).then(function (confirm) {
+                var userName = $('#userName').val();
+                var password = $('#password').val();
+                if (confirm) {
+                    swal({
+                        type: 'success',
+                        text: '登录成功 欢迎您' + userName
+                    });
+                }
+            })
+        }
+
+        Vue.filter("subStringFilter", function (value, start, end) {
+            if (!value)
+                return '';
+            return value.substring(start, end);
+        });
+        $(document).ready(function () {
+
+            var controller = new ScrollMagic.Controller();
+
+
+            new ScrollMagic.Scene({triggerElement: '.promo-3d', triggerHook: 0, duration: '50%'})
+                .setTween('.promo-screen-titles', {top: '7rem', ease: Linear.easeNone})
+                .addTo(controller);
+
+            new ScrollMagic.Scene({triggerElement: '.promo-3d', triggerHook: 0, duration: '90%'})
+                .setTween('.promo-3d-bg', {bottom: '-10vmin', scale: 1.6, ease: Linear.easeNone})
+                .addTo(controller);
+
+            new ScrollMagic.Scene({triggerElement: '.promo-3d', triggerHook: '0', duration: '80%'})
+                .setTween('.promo-3d-man', {bottom: '-30vmin', scale: .65, ease: Linear.easeNone})
+                .addTo(controller);
+
+            new ScrollMagic.Scene({triggerElement: '.promo-3d-opacity', triggerHook: '0', duration: '20%'})
+                .setTween('.promo-3d-man, .promo-3d-bg', {opacity: '0', ease: Linear.easeNone})
+                .addTo(controller);
+
+            new ScrollMagic.Scene({triggerElement: '.section-about-3d', triggerHook: '0', duration: '10%'})
+                .setTween('.promo-3d-man, .promo-3d-bg', {visibility: 'hidden', ease: Linear.easeNone})
+                .addTo(controller);
+
+            new ScrollMagic.Scene({triggerElement: '.section-about-3d', triggerHook: '0'})
+                .setClassToggle('.section-about-3d', 'active')
+                .addTo(controller);
+
+        });
+
+    </script>
+</template>
