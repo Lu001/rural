@@ -8,7 +8,7 @@
 
 <div class="wrapper"><!-- Header Start -->
     <header th:replace="rural/include/top::html"></header>
-    <div class="section section-content"  id="App">
+    <div class="section section-content" id="App">
         <div class="container">
             <div class="row justify-content-md-center">
                 <div class="col-lg-10">
@@ -32,7 +32,7 @@
                                                     <tr>
                                                         <th>操作</th>
                                                         <th class="text-left">图片</th>
-                                                        <th >伴手礼</th>
+                                                        <th>伴手礼</th>
                                                         <th>价格</th>
                                                         <th>数量</th>
                                                         <th>总价格</th>
@@ -41,31 +41,35 @@
                                                     <tbody>
                                                     <tr v-for="record in records">
                                                         <td class="product-remove ">
-                                                            <input type="checkbox"v-bind:class="{'check':record.checked} " @click="selectedProduct(record)"/>
-
+                                                            <input class="tbCheck" type="checkbox" @click="selectedProduct(record)"/>
                                                         </td>
                                                         <td class="product-thumbnail text-left">
                                                             <img :src="'img/productSingle/'+record.product.firstProductImage.id+'.jpg'"
-                                                                alt="伴手礼"></td>
+                                                                 alt="伴手礼"></td>
                                                         <td class="product-name"><h3><a
                                                                 href="javascript:;">{{record.product.name}}</a></h3>
                                                         </td>
+
                                                         <td class="product-price"><span
                                                                 class="product-price-wrapper"><span
-                                                                class="money">{{record.product.price}}</span></span></td>
-                                                        <td class="product-quantity">
-                                                            <div class="quantity">
-                                                                <input type="number"  class="quantity-input" name="qty" id="qty-1"
-                                                                       v-model="record.number" min="1" @click="changeNum(record)">
+                                                                class="money singlePrice">{{record.product.price}}</span></span>
+                                                        </td>
+                                                        <td>
+                                                            <div class="quantity-wrapper">
+                                                                <div class="quantity">
+                                                                    <input type="number" value="1" class="quantity-input" name="qty">
+                                                                    <i class="fa fa-caret-left"   aria-hidden="true"></i>
+                                                                    <i class="fa fa-caret-right" aria-hidden="true"></i>
+                                                                </div>
                                                             </div>
                                                         </td>
                                                         <td class="product-quantity">
                                                             <span class="product-price-wrapper">
-                                                            <span class="money">{{record.product.price*record.number}}</span>
+                                                            <span class="money totalPrice">{{record.product.price*record.number}}</span>
                                                             </span>
                                                         </td>
-                                                    </tr>
 
+                                                    </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -73,9 +77,8 @@
                                     </div>
                                     <div class="row no-gutters border-top pt--20 mt--20">
                                         <div class="col-sm-6">
-                                            <div class="coupon"><input type="text" id="coupon" name="coupon"
-                                                                       class="cart-form__input"
-                                                                       placeholder="Coupon Code">
+                                            <div class="coupon">
+
                                                 <button type="submit" class="cart-form__btn">Apply Coupon</button>
                                             </div>
                                         </div>
@@ -92,7 +95,8 @@
                                         <div class="cart-calculator">
                                             <div class="cart-calculator__item">
                                                 <div class="cart-calculator__item--head"><span>总价格</span></div>
-                                                <div class="cart-calculator__item--value"><span>$196.00</span></div>
+                                                <div class="cart-calculator__item--value"><span id="totalMoney">0</span>
+                                                </div>
                                             </div>
                                             <div class="cart-calculator__item">
                                                 <div class="cart-calculator__item--head"><span>优惠价</span></div>
@@ -216,7 +220,7 @@
                                         </div>
                                     </div>
                                     <a href="front_check_list" class="btn btn-size-md btn-shape-square btn-fullwidth">
-                                       确认结算</a></div>
+                                        确认结算</a></div>
                             </div>
                         </div>
                     </div>
@@ -237,12 +241,15 @@
             record: '',
             records: [],
             user: {name: '', password: 0},
+            maxNum: 10,
+            totalMoney: 0,
+            checkAllFlag: false
         },
         mounted: function () {
             this.$nextTick(function () {
                 this.cartShow();
+//                this.changeNum();
             });
-
         },
         methods: {
             cartShow: function () {
@@ -251,28 +258,65 @@
                 })
             },
             //改变产品数量
-            changeNum: function (record) {
-                $('.dec').off('click');
-                $('.quantity').on('click','.dec',function(){
-                    record.number= record.number>1? record.number-1:1;
-                    url = "changeNum?pid="+record.product.id+"&num="+record.number;
-                    console.log(url)
-                    axios.get(url);
-                })
-                $('.inc').off('click');
-                $('.quantity').on('click','.inc',function(){
-                    record.number++;
-                    url = "changeNum?pid="+record.product.id+"&num="+record.number;
-                    axios.get(url);
-                })
-            },
+//            changeNum: function () {
+//                $('.dec').off('click');
+//                $('table').on('click.dec','.dec',function (e) {
+//                    var $this = $(this)
+//                        , recInput = $this.closest('.quantity').find('.quantity-input')
+//                        , recNum = parseInt(recInput.val())
+//                        , productId = $this.closest('.quantity').find('.product-id').val()
+//                        , totalPrice = $this.closest('tr').find('.totalPrice')
+//                        , singlePrice = parseInt($this.closest('tr').find('.singlePrice').html())
+//                    recInput.val(recNum > 1 ? recNum - 1 : 1)
+//                    totalPrice.html(parseInt(recInput.val()) * singlePrice)
+//                    url = "changeNum?pid=" + productId + "&num=" + recInput.val();
+//                    vue.caleTotalPrice();
+//                    axios.get(url);
+//                })
+//                $('.inc').off('click');
+//                $('table').on('click.inc', '.inc', function () {
+//                    var $this = $(this)
+//                        , recInput = $this.closest('.quantity').find('.quantity-input')
+//                        , recNum = parseInt(recInput.val())
+//                        , productId = $this.closest('.quantity').find('.product-id').val()
+//                        , totalPrice = $this.closest('tr').find('.totalPrice')
+//                        , singlePrice = parseInt($this.closest('tr').find('.singlePrice').html())
+//                    recInput.val(recNum < vue.maxNum ? recNum + 1 : vue.maxNum)
+//                    totalPrice.html(parseInt(recInput.val()) * singlePrice);
+//                    url = "changeNum?pid=" + productId + "&num=" + recInput.val();
+//                    vue.caleTotalPrice();
+//                    axios.get(url);
+//
+//                })
+//                $('table').on('click.total',function(){
+//                    var $tr=$('tbody tr')
+//                    $tr.each(function(item,value){
+//                        console.log("item:"+item+"value:"+$($(value).html()).find("input:checked"))
+//                        console.log($($(value).html()).find("input:checked").attr('checked'))
+//                    })
+//                })
+//
+//            },
+            //计算选中的价格
             selectedProduct: function (record) {
                 if (typeof record.checked == 'undefined') {
                     Vue.set(record, "checked", true);
                 } else {
                     record.checked = !record.checked;
                 }
+                this.caleTotalPrice();
+            },
+            //计算总价格
+            caleTotalPrice: function () {
+                vue.totalMoney = 0;
+                this.records.forEach(function (record) {
+                    if (record.checked) {
+                        vue.totalMoney += record.product.price * record.number;
+                    }
+                });
+                $("#totalMoney").html(vue.totalMoney);
             }
+
         }
     });
 </script>

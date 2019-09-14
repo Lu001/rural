@@ -46,7 +46,10 @@ public class ForePageController {
         return "rural/main";
     }
     @GetMapping(value = "/home")
-    public String home() {
+    public String home(Model m) {
+        List<Product> products=productService.list(3);
+        productImageService.setFirstProdutImages(products);
+        m.addAttribute("ps",products);
         return "rural/home";
     }
 
@@ -57,10 +60,10 @@ public class ForePageController {
     }
 
     //退出登录
-    @GetMapping("/forelogout")
+    @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.removeAttribute("user");
-        return "redirect:frontIndex";
+        return "redirect:home";
     }
 
     //登录注册
