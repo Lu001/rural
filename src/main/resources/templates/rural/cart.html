@@ -44,7 +44,7 @@
                                                             <input class="tbCheck" type="checkbox" @click="selectedProduct(record)"/>
                                                         </td>
                                                         <td class="product-thumbnail text-left">
-                                                            <img :src="'img/productSingle/'+record.product.firstProductImage.id+'.jpg'"
+                                                            <img :src="'front/img/productSingle/'+record.product.firstProductImage.id+'.jpg'"
                                                                  alt="伴手礼"></td>
                                                         <td class="product-name"><h3><a
                                                                 href="javascript:;">{{record.product.name}}</a></h3>
@@ -55,11 +55,13 @@
                                                                 class="money singlePrice">{{record.product.price}}</span></span>
                                                         </td>
                                                         <td>
-                                                            <div class="quantity-wrapper">
+                                                            <div class="quantity-wrapper center-block">
                                                                 <div class="quantity">
-                                                                    <input type="number" value="1" class="quantity-input" name="qty">
-                                                                    <i class="fa fa-caret-left"   aria-hidden="true"></i>
-                                                                    <i class="fa fa-caret-right" aria-hidden="true"></i>
+                                                                    <input type="number" v-model="record.number" class="quantity-input" name="qty">
+                                                                    <div class="dec qtybutton"
+                                                                         @click="record.number=record.number>1?record.number-1:1,doWatch=!doWatch">-</div>
+                                                                    <div class="inc qtybutton"
+                                                                         @click="record.number=record.number<maxNum?record.number+1:maxNum,doWatch=!doWatch">+</div>
                                                                 </div>
                                                             </div>
                                                         </td>
@@ -68,7 +70,6 @@
                                                             <span class="money totalPrice">{{record.product.price*record.number}}</span>
                                                             </span>
                                                         </td>
-
                                                     </tr>
                                                     </tbody>
                                                 </table>
@@ -95,7 +96,7 @@
                                         <div class="cart-calculator">
                                             <div class="cart-calculator__item">
                                                 <div class="cart-calculator__item--head"><span>总价格</span></div>
-                                                <div class="cart-calculator__item--value"><span id="totalMoney">0</span>
+                                                <div class="cart-calculator__item--value"><span >{{totalMoney}}</span>
                                                 </div>
                                             </div>
                                             <div class="cart-calculator__item">
@@ -230,95 +231,56 @@
     </div>
 </div>
 <div th:include="rural/include/bottom::html"></div>
-<script src="front/assets/js/vendor.js"></script>
-<script src="front/assets/js/main.js"></script>
 <script type="text/javascript">
-    var url;
-    var vue = new Vue({
-        el: '#App',
-        data: {
-            uri: 'front_cart_show',
-            record: '',
-            records: [],
-            user: {name: '', password: 0},
-            maxNum: 10,
-            totalMoney: 0,
-            checkAllFlag: false
-        },
-        mounted: function () {
-            this.$nextTick(function () {
-                this.cartShow();
-//                this.changeNum();
-            });
-        },
-        methods: {
-            cartShow: function () {
-                axios.get(this.uri).then(function (response) {
-                    vue.records = response.data;
-                })
+    $(function(){
+        var url;
+        var vue = new Vue({
+            el: '#App',
+            data: {
+                uri: 'front_cart_show',
+                record: '',
+                records: [],
+                user: {name: '', password: 0},
+                maxNum: 10,
+                totalMoney: 0,
+                doWatch:false,
+                checkAllFlag: false
             },
-            //改变产品数量
-//            changeNum: function () {
-//                $('.dec').off('click');
-//                $('table').on('click.dec','.dec',function (e) {
-//                    var $this = $(this)
-//                        , recInput = $this.closest('.quantity').find('.quantity-input')
-//                        , recNum = parseInt(recInput.val())
-//                        , productId = $this.closest('.quantity').find('.product-id').val()
-//                        , totalPrice = $this.closest('tr').find('.totalPrice')
-//                        , singlePrice = parseInt($this.closest('tr').find('.singlePrice').html())
-//                    recInput.val(recNum > 1 ? recNum - 1 : 1)
-//                    totalPrice.html(parseInt(recInput.val()) * singlePrice)
-//                    url = "changeNum?pid=" + productId + "&num=" + recInput.val();
-//                    vue.caleTotalPrice();
-//                    axios.get(url);
-//                })
-//                $('.inc').off('click');
-//                $('table').on('click.inc', '.inc', function () {
-//                    var $this = $(this)
-//                        , recInput = $this.closest('.quantity').find('.quantity-input')
-//                        , recNum = parseInt(recInput.val())
-//                        , productId = $this.closest('.quantity').find('.product-id').val()
-//                        , totalPrice = $this.closest('tr').find('.totalPrice')
-//                        , singlePrice = parseInt($this.closest('tr').find('.singlePrice').html())
-//                    recInput.val(recNum < vue.maxNum ? recNum + 1 : vue.maxNum)
-//                    totalPrice.html(parseInt(recInput.val()) * singlePrice);
-//                    url = "changeNum?pid=" + productId + "&num=" + recInput.val();
-//                    vue.caleTotalPrice();
-//                    axios.get(url);
-//
-//                })
-//                $('table').on('click.total',function(){
-//                    var $tr=$('tbody tr')
-//                    $tr.each(function(item,value){
-//                        console.log("item:"+item+"value:"+$($(value).html()).find("input:checked"))
-//                        console.log($($(value).html()).find("input:checked").attr('checked'))
-//                    })
-//                })
-//
-//            },
-            //计算选中的价格
-            selectedProduct: function (record) {
-                if (typeof record.checked == 'undefined') {
-                    Vue.set(record, "checked", true);
-                } else {
-                    record.checked = !record.checked;
+            created(){
+                this.cartShow()
+            },
+            watch:{
+                doWatch:function(val){
+                    var $this=this
+                    //计算总价格
+                    this.totalMoney=0
+                    this.records.forEach(function(record){
+                        if(record.checked) $this.totalMoney+=record.product.price*record.number
+                    })
                 }
-                this.caleTotalPrice();
             },
-            //计算总价格
-            caleTotalPrice: function () {
-                vue.totalMoney = 0;
-                this.records.forEach(function (record) {
-                    if (record.checked) {
-                        vue.totalMoney += record.product.price * record.number;
-                    }
-                });
-                $("#totalMoney").html(vue.totalMoney);
-            }
+            computed:{
 
-        }
-    });
+            },
+            methods: {
+                cartShow: function () {
+                    if([[${session.user!=null}]]){
+                        axios.get(this.uri).then(function (response) {
+                            vue.records = response.data;
+                        })
+                    }
+                },
+                selectedProduct: function (record) {
+                    this.doWatch=!this.doWatch
+                    if (typeof record.checked == 'undefined') {
+                        Vue.set(record, "checked", true);
+                    } else {
+                        record.checked = !record.checked;
+                    }
+                },
+            }
+        });
+    })
 </script>
 </body>
 </html>
