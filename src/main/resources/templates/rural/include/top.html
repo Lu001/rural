@@ -26,11 +26,8 @@
         </div>
 
         <div class="menu-lang float-right d-none d-md-block" id="lr">
-            <div th:if="${session.user!=null}">
-                <el-link class="menu-lang-item" th:text="${session.user.name}"></el-link>
-            </div>
             <div v-if="loginStatus||hasLogin">
-
+                <el-link class="menu-lang-item">{{username?username:user}}</el-link>
             </div>
             <div v-else>
                 <el-link class="menu-lang-item" @click="loginFormVisible = true">登录</el-link>

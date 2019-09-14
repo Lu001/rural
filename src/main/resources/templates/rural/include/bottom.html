@@ -60,6 +60,7 @@
                 data() {
                     return {
                         hasLogin:false,
+                        username:"",
                         regFormVisible: false,
                         loginFormVisible: false,
                         regForm: {
@@ -100,6 +101,13 @@
                         get:function(){
                             return [[${session.user!=null}]]
                         }
+                    },
+                    user:{
+                        get:function(){
+                            /*<![CDATA[*/
+                            return [[${session.user}?${session.user.name}:_]]
+                            /*]]>*/
+                        }
                     }
                 },
                 methods: {
@@ -117,6 +125,7 @@
                                         })
                                         $this.loginFormVisible = false
                                         $this.hasLogin=true
+                                        $this.username=$this.loginForm.name
                                     } else {
                                         $this.$message.error('登录失败,请重新登录')
                                     }
