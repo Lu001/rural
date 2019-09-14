@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="rural/include/front/header::html"></head >
+<body>
+<div id="AppId">
+    <div th:replace="rural/include/front/top::html"></div>
+        <section class="section">
+            <div class="empty-space h30-xs h100-md"></div>
+            <div class="empty-space h30-xs"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="blog-item">
+                            <div class="image">
+                                <div class="blog-link"><a href="#"><span>12</span><i class="fa fa-heart-o"></i></a><a
+                                        href=""><span>7</span><i class="fa fa-comments-o"></i></a></div>
+                                <div class="blog-cat"><a href="">design</a></div>
+                                <div class="swiper-container" data-speed="1000" ata-pagination-rel="1" data-breakpoints="1"
+                                     data-slides-per-view="1" data-xs-slides="1" data-sm-slides="1" data-md-slides="1">
+                                    <div class="swiper-wrapper">
+                                        <div  class="swiper-slide"  v-for="(pi,index) in product.productSingleImages" >
+                                            <div class="bg-item" :style="getImgSrc(pi.id)"></div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-pagination swiper-pagination-white pagination-type-1"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <article class="post-article">
+                            <div class="text">
+                                <div class="empty-space h20-xs"></div>
+                                <h5 class="h5 title">
+                                    <a href="" class="hover-4">{{product.name}}</a>
+                                </h5><i>{{product.subTitle}}</i>
+                                <div class="empty-space h10-xs"></div>
+                                <div class="simple-text"><p>{{product.content}}</p></div>
+                            </div>
+                        </article>
+                        <div class="clear"></div>
+                        <!--<div class="shop">
+                             <h4 class="h4"></h4>
+                             <div class="testimonial" style="height: 65px"  v-for="r in reviews">
+                                 <img src="img/front/shop/testimonial-1.jpg" alt="">
+                                 <div class="author">
+                                     <span class="h6">{{r.user.name}}</span>
+                                     <span></span>
+                                     <span class="star">
+                                                         <i class="fa fa-star" aria-hidden="true"></i>
+                                                         <i class="fa fa-star" aria-hidden="true"></i>
+                                                         <i class="fa fa-star" aria-hidden="true"></i>
+                                                         <i class="fa fa-star" aria-hidden="true"></i>
+                                                         <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                     </span>
+                                 </div>
+                             </div>
+                             <div class="testimonial-form-wrapper"><h4 class="h6">添加你的回复</h4>
+                                 <div class="empty-space h25-xs"></div>
+                                 <form>
+                                     <div class="input-wrapper">
+                                         <div class="input-style textarea">
+                                             <textarea id="inputMessage" v-model="content" name="message" class="input" required=""></textarea>
+                                             <label for="inputMessage">Review</label></div>
+                                     </div>
+                                 </form>
+                             </div>
+                             <div class="clear"></div>
+                             <div class="row">
+                                 <div class="col-sm-6">
+                                     <div class="y-rating"><span>YOUR RATING:</span><span class="star"><i
+                                             class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star"
+                                                                                          aria-hidden="true"></i><i
+                                             class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star"
+                                                                                          aria-hidden="true"></i><i
+                                             class="fa fa-star-o" aria-hidden="true"></i></span></div>
+                                 </div>
+                                 <div class="col-sm-6 text-right">
+                                     <div class="btn-wrap"><a href="#nowhere"  @click="doReview" class="btn-2"><span>提交评价</span></a>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>-->
+                        <div class="shop">
+                            <h4 class="h4" style="padding-bottom: 20px">评论列表</h4>
+                            <div class="testimonial" style="height: 65px"  v-for="r in reviews">
+                                <img src="img/front/shop/testimonial-1.jpg" alt="">
+                                <div class="author">
+                                    <span class="h6">{{r.user.name}}</span>
+                                    <span>{{r.createDate}}</span>
+                                    <span class="star">
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                                </span>
+                                </div>
+                                <p>{{r.content}}</p>
+                            </div>
+                            <div class="testimonial-form-wrapper"><h4 class="h6">Leave a reply</h4>
+                                <div class="empty-space h25-xs"></div>
+                                <form>
+                                    <div class="input-wrapper">
+                                        <div class="input-style textarea">
+                                            <textarea id="inputMessage" v-model="content" name="message" class="input" required=""></textarea>
+                                            <label for="inputMessage">Review</label></div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="y-rating"><span>YOUR RATING:</span><span class="star"><i
+                                            class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star"
+                                                                                         aria-hidden="true"></i><i
+                                            class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star"
+                                                                                         aria-hidden="true"></i><i
+                                            class="fa fa-star-o" aria-hidden="true"></i></span></div>
+                                </div>
+                                <div class="col-sm-6 text-right">
+                                    <div class="btn-wrap"><a href="#nowhere"  @click="doreview" class="btn-2"><span>提交评价</span></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="sidebar-item">
+                            <div class="empty-space h30-xs h60-sm h0-md h0-lg"></div>
+                            <div class="search shop">
+                                <div class="input-wrapper search">
+                                    <div class="input-style"><input id="inputSearch" name="name" type="text" class="input"
+                                                                    required=""><label for="inputSearch">Search</label>
+                                        <div class="input-icon"><i class="fa fa-search" aria-hidden="true"></i><input
+                                                type="submit" id="searchsubmit" value=""></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="empty-space h50-sm h40-xs"></div>
+                            <div class="sidebar-blok">
+                                <h4 class="h5 title">标签</h4>
+                                <div class="empty-space h20-xs"></div>
+                                <a href="" class="tag-link">美食特产</a>
+                                <a class="tag-link">乌镇乡土</a>
+                                <a   href="#nowhere" v-for="pv in pvs"  class="tag-link">{{pv.property.name}}</a>
+                            </div>
+                            <div class="empty-space h50-sm h40-xs"></div>
+                            <div class="sidebar-blok"><h4 class="h5 title">乌镇风俗</h4>
+                                <div class="empty-space h20-xs"></div>
+                                <div class="post-recent">
+                                    <div class="img"><a href=""><img src="img/front/post_mini_img_1.jpg" alt="" class="hover-img"></a>
+                                    </div>
+                                    <div class="txt"><i>January 19, 2016</i>
+                                        <div class="empty-space h10-xs"></div>
+                                        <a href="" class="h6 hover-4">Lorem ipsum dolor siturn amet</a>
+                                        <div class="empty-space h10-xs"></div>
+                                        <span><i>Goran Ramljak</i></span></div>
+                                </div>
+                                <div class="empty-space h30-xs"></div>
+                                <div class="post-recent">
+                                    <div class="img"><a href=""><img src="img/front/post_mini_img_2.jpg" alt="" class="hover-img"></a>
+                                    </div>
+                                    <div class="txt"><i>January 19, 2016</i>
+                                        <div class="empty-space h10-xs"></div>
+                                        <a href="" class="h6 hover-4">Lorem ipsum dolor siturn amet</a>
+                                        <div class="empty-space h10-xs"></div>
+                                        <span><i>Goran Ramljak</i></span></div>
+                                </div>
+                            </div>
+                            <div class="empty-space h50-sm h40-xs"></div>
+                            <div class="sidebar-blok">
+                                <div class="video-item"><a href="" class="bg-item hover-img"
+                                                           style="background-image:url(img/front/video_bg.jpg)"></a>
+                                    <div class="play-button open-popup" data-rel="5"><i class="fa fa-play"></i></div>
+                                </div>
+                            </div>
+                            <div class="empty-space h50-sm h40-xs"></div>
+                            <div class="sidebar-blok">
+                                <h4 class="h5 title">热门特产</h4>
+                                <div class="empty-space h20-xs"></div>
+                                <div class="instagram-item">
+                                    <a  v-if="index<5"   v-for="(product,index) in products" href="#nowhere">
+                                        <img   :src="'img/productSingle/'+product.id+'.jpg'" alt="">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="empty-space h30-xs h100-md"></div>
+            <div class="empty-space h30-xs"></div>
+        </section>
+    <div th:replace="rural/include/front/popup::html" ></div>
+    <div th:replace="rural/include/front/footer::html" ></div>
+
+</div>
+<script src="vue/landdetail.js"></script>
+</body>
+</html>

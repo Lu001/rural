@@ -1,0 +1,142 @@
+<template th:fragment="html">
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=0">
+    <meta name="description" content="Lewis - Creative Portfolio HTML Template">
+    <meta name="author" content="Paul, Logan Cee">
+
+    <title>乌镇首页</title>
+
+    <!-- CSS -->
+    <link href="front/css/bootstrap.min.css" rel="stylesheet">
+    <link href="front/css/animsition.min.css" rel="stylesheet">
+    <link href="front/css/owl.carousel.min.css" rel="stylesheet">
+    <link href="front/css/owl.theme.default.min.css" rel="stylesheet">
+    <link href="front/css/socicon.css" rel="stylesheet">
+    <link href="front/css/ionicons.min.css" rel="stylesheet">
+    <link href="front/css/animate.min.css" rel="stylesheet">
+    <link href="front/css/jquery.fancybox.min.css" rel="stylesheet">
+    <link href="front/css/sweetalert2.min.css" rel="stylesheet">
+    <!-- Main CSS -->
+    <link href="front/css/style.css" rel="stylesheet">
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="front/js/jquery-2.2.4.min.js"></script>
+    <script type="text/javascript">
+        function getUrlParms(para){
+            var search=location.search; //页面URL的查询部分字符串
+            var arrPara=new Array(); //参数数组。数组单项为包含参数名和参数值的字符串，如“para=value”
+            var arrVal=new Array(); //参数值数组。用于存储查找到的参数值
+
+            if(search!=""){
+                var index=0;
+                search=search.substr(1); //去除开头的“?”
+                arrPara=search.split("&");
+
+                for(i in arrPara){
+                    var paraPre=para+"="; //参数前缀。即参数名+“=”，如“para=”
+                    if(arrPara[i].indexOf(paraPre)==0&& paraPre.length<arrPara[i].length){
+                        arrVal[index]=decodeURI(arrPara[i].substr(paraPre.length)); //顺带URI解码避免出现乱码
+                        index++;
+                    }
+                }
+            }
+
+            if(arrVal.length==1){
+                return arrVal[0];
+            }else if(arrVal.length==0){
+                return null;
+            }else{
+                return arrVal;
+            }
+        }
+
+        function checkEmpty(id, name){
+            var value = $("#"+id).val();
+            if(value.length==0){
+                $("#"+id)[0].focus();
+                return false;
+            }
+            return true;
+        }
+        //跳转函数
+        function jump(page,vue){
+            if('first'== page && !vue.pagination.first)
+                vue.list(0);
+
+            else if('pre'== page &&	vue.pagination.hasPrevious )
+                vue.list(vue.pagination.number-1);
+
+            else if('next'== page && vue.pagination.hasNext)
+                vue.list(vue.pagination.number+1);
+
+            else if('last'== page && !vue.pagination.last)
+                vue.list(vue.pagination.totalPages-1);
+        }
+        //跳转函数
+        function jumpByNumber(start,vue){
+            if(start!=vue.pagination.number)
+                vue.list(start);
+        }
+        function login(){
+            var name=$('#userName').val();
+            var password=$('#password').val();
+            var url =  "forelogin";
+            if(0==name.length){
+                $("p.errorMessage").html("请输入用户名");
+                $("div.loginErrorMessageDiv").css("visibility","visible");
+                return;
+            }
+            if(0==password.length){
+                console.log("密码")
+                $("p.errorMessage").html("请输入密码");
+                $("div.loginErrorMessageDiv").css("visibility","visible");
+                return;
+            }
+            var formatData=new FormData();
+            formatData.append("name",name);
+            formatData.append("password",password);
+            axios.post(url,formatData).then(function(response) {
+                var result = response.data;
+                if(result.code==0){
+                    location.href="frontIndex";
+                }
+                else{
+                    $("p.errorMessage").html(result.message);
+                    $("div.loginErrorMessageDiv").css("visibility","visible");
+                }
+            });
+        }
+        function register(){
+            var name=$('#userName2').val();
+            var password=$('#inputRePass').val();
+            var url =  "foreregister";
+            if(0==name.length){
+                $("p.errorMessage2").html("请输入用户名");
+                $("div.registerErrorMessageDiv").css("visibility","visible");
+                return;
+            }
+            if(0==password.length){
+                console.log("密码")
+                $("p.errorMessage2").html("请输入密码");
+                $("div.registerErrorMessageDiv").css("visibility","visible");
+                return;
+            }
+            var formatData=new FormData();
+            formatData.append("name",name);
+            formatData.append("password",password);
+            axios.post(url,formatData).then(function(response) {
+                var result = response.data;
+                if(result.code==0){
+                    console.log("登录成功")
+
+                }
+                else{
+                    $("p.errorMessage2").html(result.message);
+                    $("div.registerErrorMessageDiv").css("visibility","visible");
+                }
+            });
+        }
+    </script>
+</template>

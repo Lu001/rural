@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="rural/include/header::html"></head >
+  <body class="theme-orange fixed-footer fixed-footer-lg">
+  <div id="App">
+    <div class="animsition">
+      <!--乌镇文化 分页  -->
+      <div class="wrapper">
+        <header th:replace="rural/include/top::html"></header >
+        <div class="section-mini">
+
+          <div class="section-item text-left">
+            <div class="article-carousel-promo a-article-promo-carousel owl-carousel owl-theme nav-inside nav-square nav-white-orange">
+              <div class="article-promo-item" style="background-image: url(front/img/pic133.jpg)">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-xl-8">
+                      <div class="article-item-category-dark">featured post</div>
+                      <h2 class="h2-3d font-libre mb-4"><strong><a href="single-post-with-sidebar.html">Photography Exhibition 2018 at Iasi,Romania: Silence</a></strong></h2>
+                      <div class="article-carousel-promo-detail">January 7, 2018 <span class="text-grey-primary">in</span> <a href="">News</a></div>
+                      <div class="mt70"><a href="single-post-with-sidebar.html" class="btn btn-outline-light">read more<i class="icon ion-ios-arrow-right"></i></a></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="article-promo-item" style="background-image: url(front/img/pic150.jpg);">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-xl-8">
+                      <div class="article-item-category-dark">featured post</div>
+                      <h2 class="h2-3d font-libre mb-4"><strong><a href="single-post-with-sidebar.html">How to combine Typography for any field of the life?</a></strong></h2>
+                      <div class="article-carousel-promo-detail">January 7, 2018 <span class="text-grey-primary">in</span> <a href="">News</a></div>
+                      <div class="mt70"><a href="single-post-with-sidebar.html" class="btn btn-outline-light">read more<i class="icon ion-ios-arrow-right"></i></a></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-item text-left">
+            <div class="container">
+              <div class="row" id="folk-list">
+                <div class="col-md-8 mb130" role="main">
+                  <div v-for="p in pageProducts" class="article-list-listing">
+                    <div class="article-item">
+                      <div class="article-item-photo zooming"><a href="single-post-with-sidebar.html"><img src="front/img/pic134.jpg" alt="" class="img-fluid"></a></div>
+                      <div class="article-item-title font-libre"><a href="single-post-with-sidebar.html">How to combine Typography for any field of the life?</a></div>
+                      <div class="article-item-info">{{p.createdate}}<a href="">Tips & Tricks</a></div>
+                      <div class="article-item-descr text-grey">One of my favourite things I like to watch is the bloopers and outtakes that are shown of mistakes made during the making of a movie...</div>
+                    </div>
+
+                  </div>
+                  <!--分页操作-->
+                  <div th:replace="rural/include/frontPage::html"></div >
+
+                </div>
+
+                <div class="col-lg-1 d-none d-xl-block"></div>
+                <aside role="complementary" class="aside col-xl-3 col-md-4 mb130">
+                  <form action="#" class="mb65">
+                    <div class="control-with-icon">
+                      <input type="text" class="form-control form-control-lg" placeholder="Searching..." required="">
+                      <span class="control-icon"><i class="icon ion-ios-search-strong"></i></span>
+                    </div>
+                  </form>
+
+                  <div class="mb65">
+                    <h4><strong>Popular Posts</strong></h4>
+
+                    <div class="article-list-mini">
+                      <div class="media article-item-mini">
+                        <div class="mr-3"><a href="single-post-with-sidebar.html" class="article-item-photo"><img src="front/img/pic138.jpg" alt=""></a></div>
+                        <div class="media-body">
+                          <h5 class="article-item-title font-libre"><a href="single-post-with-sidebar.html">How to Create a Vintage  Magazine Effect</a></h5>
+                          <div class="article-item-date">Dec 25, 2019</div>
+                        </div>
+                      </div>
+                      <div class="media article-item-mini">
+                        <div class="mr-3"><a href="single-post-with-sidebar.html" class="article-item-photo"><img src="front/img/pic139.jpg" alt=""></a></div>
+                        <div class="media-body">
+                          <h5 class="article-item-title font-libre"><a href="single-post-with-sidebar.html">LEWIS Launch New Digital eCommerce...</a></h5>
+                          <div class="article-item-date">Feb 9, 2019</div>
+                        </div>
+                      </div>
+                      <div class="media article-item-mini">
+                        <div class="mr-3"><a href="single-post-with-sidebar.html" class="article-item-photo"><img src="front/img/pic140.jpg" alt=""></a></div>
+                        <div class="media-body">
+                          <h5 class="article-item-title font-libre"><a href="single-post-with-sidebar.html">Violet Colour in Design. Its too out date!</a></h5>
+                          <div class="article-item-date">Jan 26, 2019</div>
+                        </div>
+                      </div>
+                      <div class="media article-item-mini">
+                        <div class="mr-3"><a href="single-post-with-sidebar.html" class="article-item-photo"><img src="front/img/pic141.jpg" alt=""></a></div>
+                        <div class="media-body">
+                          <h5 class="article-item-title font-libre"><a href="single-post-with-sidebar.html">Predict Color Pantone 2018</a></h5>
+                          <div class="article-item-date">Jan 25, 2019</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="mb45">
+                    <h4><strong>Categories</strong></h4>
+                    <ul class="nav flex-column text-uppercase fs14 text-grey-light">
+                      <li class="nav-item">
+                        <a class="active" href="">news</a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="">inspiration</a>
+                      </li>
+                      <li class="nav-item active">
+                        <a href="">product</a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="">tips & tricks</a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="">event</a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="">discovery</a>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="mb75">
+                    <h4><strong>Newsletter</strong></h4>
+                    <form action="#">
+                      <div class="form-group">
+                        <div class="control-with-icon">
+                          <input type="text" class="form-control form-control-lg" placeholder="Searching..." required="">
+                          <span class="control-icon"><i class="icon ion-ios-email-outline"></i></span>
+                        </div>
+                      </div>
+                      <button type="submit" class="btn btn-dark btn-block">subscribe me</button>
+                    </form>
+                  </div>
+
+                  <div class="mb65">
+                    <a href="" class="bnr sponsored">
+                      <div class="bnr-photo zooming"><img src="front/img/pic142.jpg" alt=""></div>
+                      <div class="bnr-content">
+                        <div class="inside">
+                          <div class="bnr-title-sub text-uppercase">Sponsored Content</div>
+                          <div class="bnr-title text-uppercase font-libre">30% Discount All items</div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+
+                  <div class="mb60">
+                    <h4 class="mb-3"><strong>Follow Me</strong></h4>
+                    <ul class="social social-rounded social-follow">
+                      <li><a href="" class="follow-facebook"><i class="socicon-facebook"></i></a></li>
+                      <li><a href="" class="follow-twitter"><i class="socicon-twitter"></i></a></li>
+                      <li><a href="" class="follow-googleplus"><i class="socicon-googleplus"></i></a></li>
+                      <li><a href="" class="follow-tumblr"><i class="socicon-tumblr"></i></a></li>
+                      <li><a href="" class="follow-rss"><i class="socicon-rss"></i></a></li>
+                    </ul>
+                  </div>
+                </aside>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+      </div>
+
+      <div class="footer">
+        <div class="footer-flash-about home-flash-dark">
+          <div class="container">
+            Tell us more about what you want to accomplish with your organisation. We help you think of possible solutions in an ever-changing digital world.
+            <div class="mt-4"><a href="mailto:hello@lewisstudio.co" class="underline"><strong>hello@lewisstudio.co</strong></a></div>
+          </div>
+        </div>
+
+        <div class="home-flash-dark pt-0 pb-0"><div class="container"><hr class="mt-0 mb-0"></div></div>
+
+        <div class="footer-flash home-flash-dark">
+          <div class="container">
+            <div class="footer-content-flash">
+              <div class="row">
+                <div class="col-md-4 col-6 mb-5">
+                  <h5>Office</h5>
+                  <div class="contact-item">166 Main Street, Beverly Hills,<br> CA,&nbsp;90210</div>
+                  <div class="contact-item"><a href="mailto:hello@lewisstudio.co">hello@lewisstudio.co</a></div>
+                  <div class="contact-item"><a href="tel:+00853462188" class="phone-link">+0085 346 2188</a></div>
+                </div>
+
+                <div class="col-md-3 col-6 mb-5">
+                  <h5>help</h5>
+                  <ul class="footer-nav">
+                    <li><a href="">FAQs</a></li>
+                    <li><a href="">Terms & Conditions</a></li>
+                    <li><a href="">Privacy Policy</a></li>
+                    <li><a href="">Help</a></li>
+                    <li><a href="">Services</a></li>
+                  </ul>
+                </div>
+
+                <div class="col-md-2 col-6 mb-5">
+                  <h5>quick links</h5>
+                  <ul class="footer-nav">
+                    <li><a href="">About</a></li>
+                    <li><a href="">Contact</a></li>
+                    <li><a href="">Career</a></li>
+                    <li><a href="">Blog</a></li>
+                  </ul>
+                </div>
+
+                <div class="col-md-3 col-6 mb-5">
+                  <ul class="social social-rounded">
+                    <li><a href=""><i class="socicon-twitter"></i></a></li>
+                    <li><a href=""><i class="socicon-facebook"></i></a></li>
+                    <li><a href=""><i class="socicon-googleplus"></i></a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="site-info">
+              <div class="row">
+                <div class="col-6">
+                  <div class="copyright text-left">&copy; 2019 <strong>LEWIS</strong>. All Rights Reserved.</div>
+                </div>
+                <div class="col-6">
+                  <div class="text-right">Design by <strong><a href="../../../Index.html" title="bootstrapmb">Logan Cee</a></strong></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+
+  </div>
+  <div th:include="rural/include/bottom::html"></div >
+  <script type="text/javascript">
+      var cid=getUrlParms("cid");
+      $(function () {
+          //获取数据
+          var dataProduct={
+              uri:'foreProducts',
+              product:'',
+              pageSize:3,
+              pageNum:1,
+              currentPage:1,
+              allProducts:[],
+              pageProducts:[],
+              pagination:{},
+              pvs: [],
+              user:{name:'',password:0}
+          };
+          var vue=new Vue({
+              el:'#folk-list',
+              data:dataProduct,
+              created:function () {
+                  this.getAllProducts();
+              },
+              //展示数据
+              methods:{
+                  getAllProducts:function () {
+                      var url="foreCategories/"+cid+"/"+this.uri;
+                      axios.post(url).then(function (response) {
+                          vue.allProducts=response.data;
+                          vue.pageProducts=vue.allProducts.slice(0,vue.pageSize)
+                          vue.pageNum=Math.ceil(vue.allProducts.length/vue.pageSize)
+                      })
+                  },
+                  prevPage:function(){
+                      this.currentPage=this.currentPage>1?this.currentPage-1:1;
+                      var page=this.currentPage
+                      this.pageProducts=this.allProducts.slice((page-1)*this.pageSize,page*this.pageSize)
+                  },
+                  nextPage:function(){
+                      this.currentPage=this.currentPage<this.pageNum?this.currentPage+1:this.pageNum;
+                      var page=this.currentPage
+                      this.pageProducts=this.allProducts.slice((page-1)*this.pageSize,page*this.pageSize)
+                  },
+                  jump:function (page) {
+                      jump(page,vue);
+                  },
+                  jumpByNumber:function (e) {
+                      var item = e.target
+                          ,page = parseInt(item.innerHTML)
+                      this.currentPage = page
+                      this.pageProducts=this.allProducts.slice((page-1)*this.pageSize,page*this.pageSize)
+                  },
+                  getFolkImg:function(img){
+                      return "background-image:url(front/img/productSingle/"+img+".jpg";
+                  }
+              }
+          })
+      });
+  </script>
+  </body>
+
+</html>

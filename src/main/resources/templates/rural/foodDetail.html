@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" href="front/assets/css/vendor.css">
+<link rel="stylesheet" href="front/assets/css/main.css">
+<head th:include="rural/include/header::html">
+</head>
+<body>
+
+<div class="wrapper" id="App"><!-- Header Start -->
+    <header th:replace="rural/include/top::html"></header>
+
+    <div class="section section-content">
+
+        <div class="container-fluid">
+            <div class="main-content-wrapper">
+                <div class="page-content-inner pt--80 pt-md--60">
+                    <div class="container">
+                        <div class="row no-gutters mb--80 mb-md--57">
+                            <div class="col-lg-7 product-main-image">
+                                <div class="product-image">
+                                    <div class="product-gallery vertical-slide-nav flex-row-reverse">
+                                        <div class="product-gallery__large-image mb-sm--30">
+                                            <div class="product-gallery__wrapper">
+                                                <div class="element-carousel main-slider image-popup"
+                                                     data-slick-options='{                                                "slidesToShow": 1,                                                "slidesToScroll": 1,                                                "infinite": true,                                                "arrows": false,                                                 "asNavFor": ".nav-slider"                                            }'>
+                                                    <figure class="product-gallery__image zoom">
+                                                        <img th:src="'front/img/productSingle/'+${product.firstProductImage.id}+'.jpg'"
+                                                             alt="Product"><span
+                                                            class="product-badge sale">未出售</span>
+                                                        <div class="product-gallery__actions">
+                                                            <button class="action-btn btn-zoom-popup"><i
+                                                                    class="la la-eye"></i>
+                                                            </button>
+                                                            <a href="javascript:;" class="action-btn video-popup"><i
+                                                                    class="la la-play"></i></a></div>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="product-gallery__nav-image">
+                                            <div class="element-carousel nav-slider product-slide-nav slick-center-bottom"
+                                                 data-slick-options='{"spaceBetween": 10, "slidesToShow": 3,                                            "slidesToScroll": 1,                                            "vertical": true,                                            "swipe": true,                                            "verticalSwiping": true,                                            "infinite": true,                                            "focusOnSelect": true,                                            "asNavFor": ".main-slider",                                            "arrows": true,                                             "prevArrow": {"buttonClass": "slick-btn slick-prev", "iconClass": "la la-angle-up" },                                            "nextArrow": {"buttonClass": "slick-btn slick-next", "iconClass": "la la-angle-down" }                                        }'
+                                                 data-slick-responsive='[ {   "breakpoint":1200,     "settings": {     "slidesToShow": 2
+                                                   }     },
+                            {   "breakpoint":992, "settings": { "slidesToShow": 3  }                            },                                            {                                                "breakpoint":767,                                                 "settings": {                                                    "slidesToShow": 4,                                                    "vertical": false                                                }                                             },                                            {                                                "breakpoint":575,                                                 "settings": {                                                    "slidesToShow": 3,                                                    "vertical": false                                                }                                             },                                            {                                                "breakpoint":480,                                                 "settings": {                                                    "slidesToShow": 2,                                                    "vertical": false                                                }                                             }                                        ]'>
+                                                <figure class="product-gallery__nav-image--single"
+                                                        th:each="pi:${product.productSingleImages}">
+                                                    <img th:src="'front/img/productSingle_small/'+${pi.id}+'.jpg'"
+                                                         alt="Products">
+                                                </figure>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 offset-xl-1 col-lg-5 product-main-details mt-md--50">
+                                <div class="product-summary pl-lg--30 pl-md--0">
+                                    <div class="product-navigation text-right mb--20"><a href="" class="prev"><i
+                                            class="la la-angle-double-left"></i></a><a href="" class="next"><i
+                                            class="la la-angle-double-right"></i></a></div>
+                                    <div class="product-rating d-flex mb--20">
+                                        <div class="star-rating star-four"><span>Rated <strong
+                                                class="rating">5.00</strong>out of 5</span>
+                                        </div>
+                                    </div>
+                                    <h3 class="product-title mb--20" th:text="${product.name}"></h3>
+                                    <p class="product-short-description mb--20" th:text="${product.content}"></p>
+                                    <div class="product-price-wrapper mb--25">
+                                        <span> $: {{price*num}}</span>
+                                        <input id="iptPrice" type="hidden" th:value="${product.price}">
+                                    </div>
+
+                                    <div class="product-action d-flex flex-sm-row align-items-sm-center flex-column align-items-start mb--30">
+                                        <div class="quantity-wrapper d-flex align-items-center mr--30 mr-xs--0 mb-xs--30">
+                                            <label class="quantity-label" for="num">数量:</label>
+                                            <div class="quantity">
+                                                <input type="number" v-model="num"
+                                                       class="quantity-input"
+                                                       name="qty" id="num"
+                                                       min="1">
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-shape-square btn-size-sm"
+                                               @click="addCart">添加到购物车
+                                        </button>
+                                    </div>
+                                    <div class="product-footer-meta"><p><span>Category:</span><a href="javascript:;">Full
+                                        Sweater</a>, <a href="javascript:;">SweatShirt</a>, <a href="javascript:;">Jacket</a>,
+                                        <a href="javascript:;">Blazer</a></p></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center mb--77 mb-md--57">
+                            <div class="col-12">
+                                <div class="tab-style-2">
+                                    <div class="nav nav-tabs mb--35 mb-sm--25" id="product-tab" role="tablist"><a
+                                            class="nav-link active show" id="nav-description-tab" data-toggle="tab"
+                                            href="#nav-description" role="tab"
+                                            aria-selected="true"><span>产品描述</span></a><a
+                                            class="nav-link" id="nav-info-tab" data-toggle="tab" href="#nav-info"
+                                            role="tab"
+                                            aria-selected="false"><span>产品属性</span></a><a
+                                            class="nav-link"
+                                            id="nav-reviews-tab"
+                                            data-toggle="tab"
+                                            href="#nav-reviews"
+                                            role="tab"
+                                            aria-selected="true"><span>评论(1)</span></a>
+                                    </div>
+                                    <div class="tab-content" id="product-tabContent">
+                                        <!--产品描述-->
+                                        <div class="tab-pane fade active show" id="nav-description" role="tabpanel"
+                                             aria-labelledby="nav-description-tab">
+                                            <div class="product-description"><p th:text="${product.content}"></p>
+                                                <h5 class="product-description__heading">我的伴手礼 :</h5>
+                                                <ul>
+                                                    <li><i class="la la-arrow-right"></i><span>通过积分兑换，有更多惊喜</span>
+                                                    </li>
+                                                    <li><i class="la la-arrow-right"></i><span>乌镇小常识答题获取更多积分</span>
+                                                    </li>
+                                                    <li><i class="la la-arrow-right"></i><span>写游记获取积分</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <!--产品属性-->
+                                        <div class="tab-pane fade" id="nav-info" role="tabpanel"
+                                             aria-labelledby="nav-info-tab">
+                                            <div class="table-content table-responsive">
+                                                <table class="table shop_attributes">
+                                                    <tbody>
+                                                    <tr th:each="pv :${pvs} ">
+                                                        <th th:text="${pv.property.name}"></th>
+                                                        <td th:text="${pv.value}"></td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <!--评论(1)-->
+                                        <div class="tab-pane fade" id="nav-reviews" role="tabpanel"
+                                             aria-labelledby="nav-reviews-tab">
+                                            <div class="product-reviews">
+                                                <h3 class="review__title" th:text="${product.name}+'的评价'">
+                                                </h3>
+                                                <ul class="review__list">
+                                                    <li th:each="r:${reviews}" class="review__item">
+                                                        <div class="review__container">
+                                                            <img
+                                                                    src="front/assets/img/others/comment-1.jpg"
+                                                                    alt="Review Avatar"
+                                                                    class="review__avatar">
+                                                            <div class="review__text">
+                                                                <div class="d-flex flex-sm-row flex-column justify-content-between">
+                                                                    <div class="review__meta">
+                                                                        <strong
+                                                                                class="review__author"
+                                                                                th:text="${r.user.name}"></strong>
+                                                                        <span class="review__dash">-</span>
+                                                                        <!-- <span class="review__published-date" th:text="${r.createDate}"></span>-->
+                                                                    </div>
+                                                                    <div class="product-rating">
+                                                                        <div class="star-rating star-five"><span>等级<strong
+                                                                                class="rating">5.00</strong>out of 5</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <p class="review__description"
+                                                                   th:text="${r.content}"></p>
+
+                                                            </div>
+                                                        </div>
+                                                    </li>
+
+                                                </ul>
+                                                <div class="review-form-wrapper">
+                                                    <div class="row">
+                                                        <div class="col-lg-8">
+                                                            <form action="#" class="form pr--30">
+                                                                <div class="form__group mb--10 pb--1"><label
+                                                                        class="form__label d-block">评分等级</label>
+                                                                    <div class="rating"><span><i
+                                                                            class="la la-star"></i></span><span><i
+                                                                            class="la la-star"></i></span><span><i
+                                                                            class="la la-star"></i></span><span><i
+                                                                            class="la la-star"></i></span><span><i
+                                                                            class="la la-star"></i></span></div>
+                                                                </div>
+                                                                <div class="form__group mb--10"><label
+                                                                        class="form__label d-block"
+                                                                        for="">你的评价<span
+                                                                        class="required">*</span></label><textarea
+                                                                        name="review"
+                                                                        id="review"
+                                                                        class="form__input form__input--textarea"></textarea>
+                                                                </div>
+                                                                <div class="form__group">
+                                                                    <div class="form-row">
+                                                                        <div class="col-12"><input type="submit"
+                                                                                                   value="发布评论"
+                                                                                                   class="btn btn-size-md">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb--75 mb-md--55">
+                            <div class="col-12">
+                                <div class="element-carousel slick-vertical-center"
+                                     data-slick-options='{                                "spaceBetween": 30,                                "slidesToShow": 4,                                "slidesToScroll": 1,                                "arrows": true,                                "prevArrow": {"buttonClass": "slick-btn slick-prev", "iconClass": "la la-angle-double-left" },                                "nextArrow": {"buttonClass": "slick-btn slick-next", "iconClass": "la la-angle-double-right" }                            }'
+                                     data-slick-responsive='[                                {"breakpoint":1199, "settings": {                                    "slidesToShow": 3                                }},                                {"breakpoint":991, "settings": {                                    "slidesToShow": 2                                }},                                {"breakpoint":575, "settings": {                                    "slidesToShow": 1                                }}                            ]'>
+                                    <div th:each="ps,status:${products}" th:if="${status.index}<4" class="item">
+                                        <div class="ft-product">
+                                            <div class="product-inner">
+                                                <div class="product-image">
+                                                    <figure class="product-image--holder">
+                                                        <img  th:src="'front/img/productSingle/'+${ps.firstProductImage.id}+'.jpg'"
+                                                             alt="Product">
+                                                    </figure>
+                                                    <a href="javascript:;" class="product-overlay"></a>
+                                                    <div class="product-action"><a data-toggle="modal"
+                                                                                   data-target="#productModal"
+                                                                                   class="action-btn"><i
+                                                            class="la la-eye"></i></a><a
+                                                            href="javascript:;" class="action-btn"><i
+                                                            class="la la-heart-o"></i></a><a
+                                                            href="javascript:;" class="action-btn"><i
+                                                            class="la la-repeat"></i></a>
+                                                    </div>
+                                                </div>
+                                                <div class="product-info">
+                                                    <div class="product-category"><a href="javascript:;"
+                                                                                     th:text="${ps.name}"></a></div>
+                                                    <h3 class="product-title"><a href="javascript:;"
+                                                                                 th:text="${ps.id}"></a>
+                                                    </h3>
+                                                    <div class="product-info-bottom">
+                                                        <div class="product-price-wrapper"><span
+                                                                class="money" th:text="${ps.price}"></span></div>
+                                                        <a href="javascript:;" @click="addCart" class="add-to-cart pr--15"><i
+                                                                class="la la-plus"></i><span>加入购物车</span></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+<div th:include="rural/include/bottom::html"></div>
+<script src="front/assets/js/vendor.js"></script>
+<script src="front/assets/js/main.js"></script>
+<script type="text/javascript">
+    var pid=getUrlParms("pid");
+    var url1 = "checkLogin";
+  var vue= new Vue({
+        el: '#App',
+        data: {
+            num: 1,
+            maxNum:5,
+            pid:0
+        },
+        created: function () {
+            var $this=this
+            this.$nextTick(function(){
+                $('.dec').off('click').on('click',function(){
+                    $this.num=$this.num>1?$this.num-1:1
+                })
+                $('.inc').off('click').on('click',function(){
+                    with($this){
+                        num=num<maxNum?num+1:maxNum
+                    }
+                })
+            })
+        },
+
+        computed: {
+            price: {
+                get: function () {
+                    return $("#iptPrice").val()
+                }
+            }
+        },
+        methods: {
+            addCart: function () {
+                axios.get(url1).then(function (response) {
+                    if(0 == response.data.code){
+                        //登录过的
+                        swal({
+                            title: '乌镇特产',
+                            text: '购物车加入成功',
+                        }).then(function() {
+                            var num=$("#num").val();
+                            var url = "addRecord?pid=" + pid+"&num="+vue.num;
+                            axios.post(url);
+                        })
+                    }
+                    else{
+                        swal({
+                            title: '您还未登录',
+                            text: '登录成功后，可以兑换商品',
+                            timer: 2000
+                        })
+                    }
+                });
+            }
+
+        }
+    })
+</script>
+</body>
+</html>

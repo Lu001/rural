@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" href="front/assets/css/vendor.css">
+<link rel="stylesheet" href="front/assets/css/main.css">
+<head th:include="rural/include/header::html">
+</head >
+
+<body>
+
+<!--乌镇分页产品 搜索-->
+<div class="wrapper">
+    <header th:replace="rural/include/top::html"></header >
+
+
+    <div  id="App" class="section section-content">
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="col-lg-10">
+                    <h3 class="section-item-title-xs">featured works</h3>
+                    <h1 class="h2-flash font-abril">乌镇特产</h1>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="main-content-wrapper">
+                <div class="shop-page-wrapper">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="shop-toolbar mb--50">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-5 mb-sm--30 mb-xs--10">
+                                            <div class="shop-toolbar__left">
+                                                <div class="product-ordering"><select
+                                                        class="product-ordering__select nice-select">
+                                                    <option value="0">Default Sorting</option>
+                                                    <option value="1">Relevance</option>
+                                                    <option value="2">Name, A to Z</option>
+                                                    <option value="3">Name, Z to A</option>
+                                                    <option value="4">Price, low to high</option>
+                                                    <option value="5">Price, high to low</option>
+                                                </select></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <div class="shop-toolbar__right d-flex justify-content-md-end justify-content-start flex-sm-row flex-column">
+                                                <p class="product-pages">Showing Result 08 Among 72</p>
+                                                <div class="product-view-mode ml--50 ml-xs--0"><a class="active" href=""
+                                                                                                  data-target="grid"><img
+                                                        src="front/assets/img/icons/grid.png" alt="Grid"></a><a href=""
+                                                                                                          data-target="list"><img
+                                                        src="front/assets/img/icons/list.png" alt="Grid"></a></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="shop-products">
+                                    <div class="row">
+                                        <div v-for="p in pageProducts" class="col-xl-4 col-sm-6 mb--50">
+                                            <div class="ft-product">
+                                                <div class="product-inner">
+                                                    <div class="product-image">
+                                                        <figure class="product-image--holder">
+                                                            <img :href="'front_foodDetail_list?id='+p.id" :src="'img/productSingle/'+p.firstProductImage.id+'.jpg'" alt="Product">
+                                                        </figure>
+                                                        <a href="javascript:;" class="product-overlay"></a>
+                                                        <div class="product-action">
+                                                            <a :href="'front_foodDetail_list?pid='+p.id"  class="action-btn">
+                                                                <i class="la la-eye"></i></a>
+                                                            <a href="javascript:;" class="action-btn">
+                                                                <i  class="la la-heart-o"></i></a>
+                                                            <a href="javascript:;" class="action-btn">
+                                                                <i  class="la la-repeat"></i></a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-info">
+                                                        <div class="product-category"><h2>{{p.name}}</h2></div>
+                                                        <h3 class="product-title">{{p.content | subStringFilter(0,20)}}
+                                                           </h3>
+                                                        <div class="product-info-bottom">
+                                                            <div class="product-price-wrapper"><span class="money">价格：{{p.price}}</span>
+                                                            </div>
+                                                            <a href="javascript:;" class="add-to-cart pr--15"><i
+                                                                    class="la la-plus"></i><span>添加到购物车</span></a></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div th:replace="rural/include/frontPage::html"></div >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:include="rural/include/bottom::html"></div >
+<script src="front/assets/js/vendor.js"></script><!-- Main JS -->
+<script src="front/assets/js/main.js"></script>
+<script type="text/javascript">
+    var cid=getUrlParms("cid");
+    $(function () {
+        //获取数据
+        var dataProduct={
+            uri:'foreProducts',
+            product:'',
+            pageSize:9,
+            pageNum:1,
+            currentPage:1,
+            allProducts:[],
+            pageProducts:[],
+            pagination:{},
+            pvs: [],
+            user:{name:'',password:0}
+        };
+        var vue=new Vue({
+            el:'#App',
+            data:dataProduct,
+            created:function () {
+                this.getAllProducts();
+            },
+            //展示数据
+            methods:{
+                getAllProducts:function () {
+                    var url="foreCategories/"+cid+"/"+this.uri;
+                    axios.post(url).then(function (response) {
+                        vue.allProducts=response.data;
+                        vue.pageProducts=vue.allProducts.slice(0,vue.pageSize)
+                        vue.pageNum=Math.ceil(vue.allProducts.length/vue.pageSize)
+                    })
+                },
+                prevPage:function(){
+                    this.currentPage=this.currentPage>1?this.currentPage-1:1;
+                    var page=this.currentPage
+                    this.pageProducts=this.allProducts.slice((page-1)*this.pageSize,page*this.pageSize)
+                },
+                nextPage:function(){
+                    this.currentPage=this.currentPage<this.pageNum?this.currentPage+1:this.pageNum;
+                    var page=this.currentPage
+                    this.pageProducts=this.allProducts.slice((page-1)*this.pageSize,page*this.pageSize)
+                },
+                jump:function (page) {
+                    jump(page,vue);
+                },
+                jumpByNumber:function (e) {
+                    var item = e.target
+                        ,page = parseInt(item.innerHTML)
+                    this.currentPage = page
+                    this.pageProducts=this.allProducts.slice((page-1)*this.pageSize,page*this.pageSize)
+                },
+                getFolkImg:function(img){
+                    return "background-image:url(front/img/productSingle/"+img+".jpg";
+                }
+            }
+        })
+    });
+</script>
+</body>
+</html>

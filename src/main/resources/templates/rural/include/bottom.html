@@ -1,4 +1,4 @@
-<template th:fragment="html">
+<template th:fragment="html" xmlns:th="http://www.w3.org/1999/XSL/Transform">
     <script src="front/js/smoothscroll.js"></script>
     <script src="front/js/popper.min.js"></script>
     <script src="front/js/bootstrap.min.js"></script>
@@ -18,43 +18,9 @@
     <script src="front/js/vue.min.js"></script>
     <script src="front/js/axios.min.js"></script>
     <script src="front/js/moment.js"></script>
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <script>
-        function alertLogin() {
-            console.log('dsadsa')
-            swal({
-                title: '用户登录',
-                html:
-                '<input id="userName" class="swal2-input" autofocus>' +
-                '<input id="password" class="swal2-input">',
-                preConfirm: function () {
-                    return new Promise(function(resolve,reject) {
-                        if (false) {
-                            resolve([
-                                $('#userName').val(),
-                                $('#userName').val()
-                            ]);
-                        }else{
-                            reject('wrong')
-                        }
-                    });
-                }
-            }).then(function (confirm) {
-                var userName = $('#userName').val();
-                var password = $('#password').val();
-                if (confirm) {
-                    swal({
-                        type: 'success',
-                        text: '登录成功 欢迎您' + userName
-                    });
-                }
-            })
-        }
-
-        Vue.filter("subStringFilter", function (value, start, end) {
-            if (!value)
-                return '';
-            return value.substring(start, end);
-        });
         $(document).ready(function () {
 
             var controller = new ScrollMagic.Controller();
@@ -83,8 +49,110 @@
             new ScrollMagic.Scene({triggerElement: '.section-about-3d', triggerHook: '0'})
                 .setClassToggle('.section-about-3d', 'active')
                 .addTo(controller);
+        })
+    </script>
+    <script th:inline="javascript">
+        window.onload = function () {
+            var regUrl = "/register"
+                , loginUrl = '/login'
+            var lr = new Vue({
+                el: "#lr",
+                data() {
+                    return {
+                        hasLogin:false,
+                        regFormVisible: false,
+                        loginFormVisible: false,
+                        regForm: {
+                            name: '',
+                            password: ''
+                        },
+                        loginForm: {
+                            name: '',
+                            password: ''
+                        },
+                        formLabelWidth: '120px',
+                        regRules: {
+                            name: [
+                                {required: true, message: '用户名不能为空', trigger: 'blur'},
+                                // {validator: checkName, message: "用户名已存在", trigger: 'blur'}
+                            ],
+                            password: [
+                                {required: true, message: '密码不能为空', trigger: 'blur'},
+                                {minLength: 6, maxLength: 20, message: '密码长度为6-20', trigger: 'blur'}
+                            ]
+                        },
+                        loginRules: {
+                            name: [
+                                {required: true, message: '用户名不能为空', trigger: 'blur'},
+                            ],
+                            password: [
+                                {required: true, message: '密码不能为空', trigger: 'blur'},
+                                {minLength: 6, maxLength: 20, message: '密码长度为6-20', trigger: 'blur'}
+                            ]
+                        },
+                    }
+                },
+                watch:{
 
-        });
-
+                },
+                computed: {
+                    loginStatus: {
+                        get:function(){
+                            return [[${session.user!=null}]]
+                        }
+                    }
+                },
+                methods: {
+                    submitLoginForm(formName) {
+                        var $this = this
+                        this.$refs[formName].validate((valid) => {
+                            if (valid) {
+                                axios.post(loginUrl, this.loginForm).then((response) => {
+                                    var data = response.data
+                                    console.log(data)
+                                    if (data.code == 0) {
+                                        $this.$message({
+                                            type: 'success',
+                                            message: '登录成功'
+                                        })
+                                        $this.loginFormVisible = false
+                                        $this.hasLogin=true
+                                    } else {
+                                        $this.$message.error('登录失败,请重新登录')
+                                    }
+                                }).catch((err) => {
+                                    $this.$message.error('服务器内部错误，请联系系统管理员')
+                                })
+                            } else {
+                                return false;
+                            }
+                        });
+                    },
+                    submitRegForm(formName) {
+                        var $this = this
+                        this.$refs[formName].validate((valid) => {
+                            if (valid) {
+                                axios.post(regUrl, this.regForm).then((response) => {
+                                    var data = response.data
+                                    if (data.code == 0) {
+                                        $this.$message({
+                                            type: 'success',
+                                            message: '注册成功'
+                                        })
+                                        $this.regFormVisible = false
+                                    } else {
+                                        $this.$message.error('注册失败,请重新注册')
+                                    }
+                                }).catch((err) => {
+                                    $this.$message.error('服务器内部错误，请联系系统管理员')
+                                })
+                            } else {
+                                return false;
+                            }
+                        });
+                    }
+                }
+            })
+        }
     </script>
 </template>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="rural/include/front/header::html"></head >
+<link rel="stylesheet" href="cart/css/base2.css">
+<link rel="stylesheet" href="cart/css/checkout.css">
+<link rel="stylesheet" href="cart/css/modal.css">
+<title>我的购物车</title>
+<body>
+<div id="App">
+    <div th:replace="rural/include/front/top::html"></div>
+    <div class="empty-space h30-md"></div>
+    <div th:replace="rural/include/front/cart/showCart::html" ></div>
+    <div th:replace="rural/include/front/footer::html" ></div>
+    <div th:replace="rural/include/front/popup::html" ></div>
+</div>
+<script src="cart/js/cart.js"></script>
+</body>
+</html>
