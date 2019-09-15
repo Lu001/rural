@@ -46,7 +46,8 @@ public class ForeRestController {
     QuestionRecordService questionRecordService;
     @Autowired
     OrderService orderService;
-
+    @Autowired
+    TripService tripService;
     @Autowired
     BarrageService barrageService;
     //登录注册
@@ -206,12 +207,21 @@ public class ForeRestController {
         orderService.update(order);
         return order;
     }
-
-
-
-
-
-
+    //写游记
+    @PostMapping("writeTrip")
+    public Object writeTrip(@RequestParam String content, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (null == user)
+            return Result.fail("未登录");
+        Trip trip=new Trip();
+        trip.setContent(content);
+        trip.setCreateDate(new Date());
+        trip.setUser(user);
+        tripService.add(trip);
+        Map<String, Object> map = new HashMap<>();
+        map.put("trip", trip);
+         return Result.success(map);
+    }
 
 
 

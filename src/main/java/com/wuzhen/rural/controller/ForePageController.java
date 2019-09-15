@@ -39,6 +39,8 @@ public class ForePageController {
     RecordService recordService;
     @Autowired
     UserService userService;
+    @Autowired
+    TripService tripService;
     //乌镇首页 乡土 文化 特产 风光
 
     @GetMapping(value = "/frontIndex")
@@ -53,11 +55,6 @@ public class ForePageController {
         return "rural/home";
     }
 
-    //用户个人详情界面
-    @GetMapping(value = "/front_user")
-    public String front_user() {
-        return "rural/user";
-    }
 
     //退出登录
     @GetMapping("/logout")
@@ -161,8 +158,17 @@ public class ForePageController {
     }
     //乌镇旅游
     @GetMapping(value = "/front_trip_list")
-    public String front_trip_list(){
+    public String front_trip_list(Model m){
+        List<Trip> trips=tripService.list();
+        m.addAttribute("trips",trips);
         return "rural/trip";
+    }
+
+    @GetMapping(value = "/front_tripDetail_list")
+    public String front_tripDetail_list(Model m, @RequestParam(value = "id") int id){
+        Trip trip = tripService.get(id);
+        m.addAttribute("trip",trip);
+        return "rural/tripDetail";
     }
     //乌镇乡土详情-->1用户评论2商品属性
     @GetMapping(value = "/front_landDetail_list")
@@ -194,6 +200,11 @@ public class ForePageController {
         m.addAttribute("reviews",reviews);
         m.addAttribute("user",user);
         return "rural/landDetail";
+    }
+    //个人中心
+    @GetMapping(value = "/front_user")
+    public String front_user(Model m){
+        return "rural/user";
     }
 
     //登录注册
